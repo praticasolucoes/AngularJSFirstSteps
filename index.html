@@ -58,6 +58,10 @@
 					return contato.selecionado;
 				});
 			}
+            $scope.ordenarPor = function(criterioDeOrdenacao){
+                $scope.criterioDeOrdenacao = criterioDeOrdenacao;
+                $scope.sentido = !$scope.sentido;
+            }
 		});
 	</script>
 </head>
@@ -66,15 +70,16 @@
 		<h3>
 			{{app}}
 		</h3>
+        <input type="text" ng-model="busca" placeholder="Busque por qualquer coisa!" class="form-control"/>
 		<table ng-show="contatos.length > 0" class="table">
 			<tr>
 				<th></th>
-				<th>Nome</th>
+                <th><a href="" ng-click="ordenarPor('nome')">Nome</a></th>
 				<th>Telefone</th>
 				<th>Operadora</th>
 				<th></th>
 			</tr>
-			<tr ng-class="{'alert-warning': contato.selecionado}" ng-repeat="contato in contatos">
+			<tr ng-class="{'alert-warning': contato.selecionado}" ng-repeat="contato in contatos | filter:busca | orderBy:criterioDeOrdenacao:sentido">
 				<td><input type="checkbox" ng-model="contato.selecionado"/></td>
 				<td>{{contato.nome}}</td>
 				<td>{{contato.telefone}}</td>
